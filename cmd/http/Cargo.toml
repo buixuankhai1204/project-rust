@@ -1,0 +1,66 @@
+[package]
+name = "project_rust"
+version = "0.1.0"
+edition = "2018"
+authors = ["khai <khaibuixuan2@gmail.com>"]
+repository = "https://github.com/buixuankhai1204/project-rust"
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[features]
+std = []
+with-bytes = ["bytes"]
+with-serde = ["serde", "serde_derive"]
+prof = ["pprof"]
+default = ["std", "with-bytes", "with-serde"]
+
+[dependencies]
+lazy_static = "~1"
+json = "~0.12"
+anyhow = "~1.0"
+num_cpus = "~1"
+warp = { git = "https://github.com/seanmonstar/warp", features = ["multipart", "websocket", "trace-log", "http2", "compression"]}
+parking_lot = "~0"
+protobuf = { version = "~2", features = ["with-bytes", "with-serde"] }
+tokio = { version = "~1", features = ["full", "rt", "macros", "rt-multi-thread", "time"] }
+tokio-stream = { version = "~0", features = ["time", "net", "io-util", "fs", "sync", "signal"] }
+pprof = { version = "^0.5", default-features = false, features = ["flamegraph", "protobuf"], optional = true }
+memmap = "0.7"
+byteorder = "1"
+
+# Serialize dependencies
+bytes = { version = "~1.1", optional = true, features = ["std", "serde"] }
+serde = { version = "1.0", features = ["derive", "rc"], optional = true }
+serde_derive = { version = "~1.0", optional = true }
+serde_json = { version = "~1.0", features = ["std", "alloc", "preserve_order", "raw_value"] }
+uuid = { version = "~0.8", features = ["serde", "v4"] }
+validator = { version = "0.13", features = ["derive", "phone", "card", "unic"] }
+rfc7239 = "0.1"
+
+# Futures dependencies
+futures = { version = "~0.3", default-features = false, features = ["std", "async-await", "thread-pool", "io-compat"] }
+futures-core = "~0.3"
+futures-sink = "0.3"
+futures-channel = "~0.3"
+futures-executor = "~0.3"
+futures-util = { version = "~0.3", default-features = false, features = ["std", "async-await", "async-await-macro", "channel", "io-compat", "sink"] }
+futures-timer = "~3.0"
+
+# Logger dependencies
+log = "~0.4"
+pretty_env_logger = "~0.4"
+slog = "~2"
+slog-async = "~2"
+slog-stdlog = "~4"
+slog-scope = "~4"
+slog-term = "~2"
+log4rs = "~1"
+
+# Tracing dependencies
+opentelemetry = { version = "*", features = ["trace", "testing", "rt-tokio"] }
+opentelemetry-jaeger = { version = "*", features = ["collector_client", "isahc_collector_client", "rt-tokio"] }
+
+[[bin]]
+name="fdglapi_http_server"
+path= "src/bin/main.rs"
+test=false
+
